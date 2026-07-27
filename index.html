@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics & Business Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Chart.js Library -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="dashboard-container">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="brand">
+        <i class="fa-solid fa-chart-line"></i>
+        <span>DashPulse</span>
+      </div>
+      <nav class="nav-menu">
+        <a href="#" class="nav-link active"><i class="fa-solid fa-house"></i> Dashboard</a>
+        <a href="#" class="nav-link"><i class="fa-solid fa-cart-shopping"></i> Orders</a>
+        <a href="#" class="nav-link"><i class="fa-solid fa-box"></i> Products</a>
+        <a href="#" class="nav-link"><i class="fa-solid fa-users"></i> Customers</a>
+        <a href="#" class="nav-link"><i class="fa-solid fa-gear"></i> Settings</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- Top Header -->
+      <header class="top-header">
+        <div class="header-title">
+          <h1>Performance Overview</h1>
+          <p>Real-time updates and sales metrics</p>
+        </div>
+        <div class="header-actions">
+          <select id="timeRangeFilter" class="dropdown">
+            <option value="7days">Last 7 Days</option>
+            <option value="30days" selected>Last 30 Days</option>
+            <option value="year">This Year</option>
+          </select>
+          <button id="themeToggleBtn" class="icon-btn" title="Toggle Light/Dark Theme">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+          <button id="refreshBtn" class="btn primary-btn">
+            <i class="fa-solid fa-rotate-right"></i> Refresh Data
+          </button>
+        </div>
+      </header>
+
+      <!-- KPI Metric Cards -->
+      <section class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-info">
+            <span class="kpi-label">Total Revenue</span>
+            <h2 id="kpiRevenue">₹1,24,500</h2>
+            <span class="kpi-trend positive"><i class="fa-solid fa-arrow-trend-up"></i> +14.2%</span>
+          </div>
+          <div class="kpi-icon"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-info">
+            <span class="kpi-label">Total Orders</span>
+            <h2 id="kpiOrders">1,482</h2>
+            <span class="kpi-trend positive"><i class="fa-solid fa-arrow-trend-up"></i> +8.5%</span>
+          </div>
+          <div class="kpi-icon"><i class="fa-solid fa-bag-shopping"></i></div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-info">
+            <span class="kpi-label">Conversion Rate</span>
+            <h2 id="kpiConversion">3.64%</h2>
+            <span class="kpi-trend negative"><i class="fa-solid fa-arrow-trend-down"></i> -0.4%</span>
+          </div>
+          <div class="kpi-icon"><i class="fa-solid fa-bolt"></i></div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-info">
+            <span class="kpi-label">Active Visitors</span>
+            <h2 id="kpiVisitors">452</h2>
+            <span class="kpi-trend positive"><i class="fa-solid fa-arrow-trend-up"></i> Live</span>
+          </div>
+          <div class="kpi-icon"><i class="fa-solid fa-eye"></i></div>
+        </div>
+      </section>
+
+      <!-- Charts Section Grid -->
+      <section class="charts-grid">
+        
+        <!-- Chart 1: Main Revenue & Orders Line Chart -->
+        <div class="chart-card full-width">
+          <div class="chart-header">
+            <h3>Revenue & Sales Trend</h3>
+            <span class="subtext">Monthly comparison</span>
+          </div>
+          <div class="chart-container">
+            <canvas id="revenueChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 2: Category Distribution Doughnut Chart -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3>Top Categories</h3>
+            <span class="subtext">Share of sales</span>
+          </div>
+          <div class="chart-container">
+            <canvas id="categoryChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 3: Channel Performance Bar Chart -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3>Traffic & Sales Channels</h3>
+            <span class="subtext">Platform breakdown</span>
+          </div>
+          <div class="chart-container">
+            <canvas id="channelChart"></canvas>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
