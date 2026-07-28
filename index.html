@@ -3,1224 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enterprise AI Business Intelligence Studio</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Chart.js DataLabels Plugin -->
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
-    <!-- SheetJS for Excel -->
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-    <!-- PapaParse for CSV -->
-    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-    <style>
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
-        .drop-zone { min-height: 70px; transition: all 0.2s ease; }
-        .drop-zone.drag-over { background-color: #e0e7ff !important; border-color: #4f46e5 !important; }
-        .field-item { cursor: grab; user-select: none; }
-        .field-item:active { cursor: grabbing; }
-        .slicer-btn.active { background-color: #4f46e5 !important; color: #ffffff !important; border-color: #4f46e5 !important; }
-    </style>
+    <title>Enterprise Universal AI Analytics Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen">
-
-    <!-- TOP EXECUTIVE HEADER -->
-    <header class="bg-slate-900 text-white p-4 shadow-lg border-b border-slate-700">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
-            <div class="flex items-center gap-3">
-                <div class="bg-indigo-600 p-2.5 rounded-xl shadow-md">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-                </div>
-                <div>
-                    <h1 class="text-lg font-bold tracking-tight text-slate-100 flex items-center gap-2">
-                        Enterprise AI BI & Analytics Studio
-                        <span class="text-[10px] bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-black px-2 py-0.5 rounded-full uppercase tracking-wider">AI Engine</span>
-                    </h1>
-                    <p class="text-xs text-slate-400">Power BI Class Web Analytics • Relational Joins • Threaded Worker AI</p>
-                </div>
+<body class="dark-mode">
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-logo" id="brandLogoIcon">BI</div>
+                <h2 id="brandTitle">NexusBI Enterprise</h2>
             </div>
-            <div class="flex items-center gap-2">
-                <button id="exportGlobalExcel" class="hidden text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3 py-1.5 rounded-lg shadow transition">📥 Export Master Dataset</button>
-                <span class="text-xs font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-3 py-1.5 rounded-full">v7.0 PowerBI Pro</span>
-            </div>
-        </div>
-    </header>
+            
+            <nav class="nav-menu">
+                <a href="#dashboard" class="nav-item active" data-tab="dashboard">
+                    <span class="icon">📊</span>
+                    <span>Executive Dashboard</span>
+                </a>
+                <a href="#analytics" class="nav-item" data-tab="analytics">
+                    <span class="icon">📈</span>
+                    <span>Deep Analytics</span>
+                </a>
+                <a href="#insights" class="nav-item" data-tab="insights">
+                    <span class="icon">💡</span>
+                    <span>AI Executive Insights</span>
+                </a>
+                <a href="#datatable" class="nav-item" data-tab="datatable">
+                    <span class="icon">📋</span>
+                    <span>Data Explorer</span>
+                </a>
+                <a href="#settings" class="nav-item" data-tab="settings">
+                    <span class="icon">⚙️</span>
+                    <span>White Label & Settings</span>
+                </a>
+            </nav>
 
-    <main class="max-w-7xl mx-auto p-4 md:p-6 space-y-6">
-
-        <!-- FRAME 1: DATA IMPORT ENGINE & GLOBAL FILTERS -->
-        <section class="bg-white rounded-2xl shadow-sm border-2 border-slate-300 overflow-hidden">
-            <div class="bg-slate-800 text-white px-5 py-3 flex justify-between items-center">
-                <h2 class="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
-                    <span class="w-5 h-5 rounded-full bg-indigo-500 text-white flex items-center justify-center text-xs">1</span>
-                    Multi-Source Connector & Relational Query Engine
-                </h2>
-                <button id="loadSampleBtn" class="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-lg font-semibold shadow transition">⚡ Load Power BI Demo Model</button>
-            </div>
-
-            <div class="p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="border-2 border-dashed border-indigo-300 bg-indigo-50/20 rounded-xl p-5 text-center hover:bg-indigo-50/50 transition flex flex-col justify-center items-center">
-                    <input type="file" id="fileInput" multiple accept=".csv, .xlsx, .xls" class="hidden" />
-                    <label for="fileInput" class="cursor-pointer flex flex-col items-center">
-                        <svg class="w-10 h-10 text-indigo-600 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 0115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-                        <span class="text-sm font-bold text-slate-700">Drop CSV or Excel Files Here</span>
-                        <span class="text-xs text-slate-500 mt-1">Connect multiple tables for automatic relationships</span>
-                    </label>
-                </div>
-
-                <div class="border-2 border-slate-200 rounded-xl p-3 bg-slate-50 flex flex-col">
-                    <div class="flex justify-between items-center mb-2">
-                        <h3 class="text-xs font-bold uppercase text-slate-500">Connected Data Tables</h3>
-                        <button id="clearFilesBtn" class="text-xs text-red-600 font-bold hover:underline hidden">Reset All</button>
-                    </div>
-                    <div id="fileList" class="space-y-1.5 text-xs text-slate-600 max-h-32 overflow-y-auto custom-scrollbar flex-1">
-                        <p class="text-slate-400 italic">No files connected yet.</p>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <span class="avatar">AD</span>
+                    <div class="details">
+                        <span class="name">Admin User</span>
+                        <span class="role">Enterprise Analyst</span>
                     </div>
                 </div>
             </div>
+        </aside>
 
-            <!-- GLOBAL SEARCH BAR & FILTERS -->
-            <div id="globalFilterContainer" class="px-5 pb-5 pt-1 bg-slate-50 border-t border-slate-200 hidden">
-                <div class="flex flex-col md:flex-row gap-3 items-center">
-                    <div class="flex-1 w-full">
-                        <label class="text-[10px] font-bold uppercase text-slate-500">Global Search Across All Fields</label>
-                        <input type="text" id="globalSearchInput" placeholder="Filter rows containing text..." class="w-full text-xs p-2 border border-slate-300 rounded-lg bg-white shadow-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                    </div>
-                    <div class="w-full md:w-48">
-                        <label class="text-[10px] font-bold uppercase text-slate-500">Start Date</label>
-                        <input type="date" id="startDateFilter" class="w-full text-xs p-2 border border-slate-300 rounded-lg bg-white shadow-sm">
-                    </div>
-                    <div class="w-full md:w-48">
-                        <label class="text-[10px] font-bold uppercase text-slate-500">End Date</label>
-                        <input type="date" id="endDateFilter" class="w-full text-xs p-2 border border-slate-300 rounded-lg bg-white shadow-sm">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Relational Joins Box -->
-            <div id="relationshipContainer" class="p-4 bg-indigo-950/5 border-t-2 border-indigo-100 hidden">
-                <h3 class="text-xs font-bold uppercase text-indigo-900 mb-2">Data Model Relationships (Auto-Detected Primary Keys)</h3>
-                <div id="joinsList" class="space-y-2"></div>
-            </div>
-        </section>
-
-        <!-- FRAME 2: GLOBAL EXECUTIVE KPIS & AI INSIGHTS ENGINE -->
-        <section id="kpiSection" class="bg-white rounded-2xl shadow-sm border-2 border-emerald-300 overflow-hidden hidden">
-            <div class="bg-gradient-to-r from-emerald-800 to-teal-900 text-white px-5 py-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-                <div class="flex items-center gap-2">
-                    <span class="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs">2</span>
-                    <h2 class="text-sm font-bold uppercase tracking-wider">Dataset Intelligence & AI Copilot</h2>
+        <!-- Main Workspace -->
+        <main class="main-content">
+            <!-- Header Bar -->
+            <header class="top-header">
+                <div class="header-left">
+                    <h1 id="pageTitle">Executive Analytics Summary</h1>
+                    <span class="badge" id="dataStatusBadge">Demo Data Loaded</span>
                 </div>
                 
-                <div class="flex items-center gap-2 w-full sm:w-auto">
-                    <label for="datasetOverviewSelect" class="text-xs font-bold text-emerald-100 whitespace-nowrap">Target View:</label>
-                    <select id="datasetOverviewSelect" class="text-xs bg-emerald-950 text-white border border-emerald-400 rounded-lg px-2 py-1 font-bold focus:outline-none focus:ring-2 focus:ring-emerald-300 w-full sm:w-auto">
-                        <option value="__ALL__">Combined Relational Master</option>
+                <div class="header-right">
+                    <div class="preset-selector">
+                        <label for="datasetSelect">Preset Industry Data:</label>
+                        <select id="datasetSelect">
+                            <option value="sales">Global Retail & Sales</option>
+                            <option value="finance">Financial Operations</option>
+                            <option value="hr">HR & Talent Metrics</option>
+                        </select>
+                    </div>
+
+                    <div class="file-upload-wrapper">
+                        <input type="file" id="csvFileInput" accept=".csv" class="file-input-hidden">
+                        <button class="btn btn-primary" onclick="document.getElementById('csvFileInput').click()">
+                            📂 Upload CSV
+                        </button>
+                    </div>
+
+                    <button class="btn btn-secondary" id="themeToggleBtn">☀️ Light Mode</button>
+                </div>
+            </header>
+
+            <!-- Dynamic Global Filters -->
+            <section class="filter-toolbar">
+                <div class="filter-group">
+                    <label>Search Dataset:</label>
+                    <input type="text" id="globalSearchInput" placeholder="Filter rows across all fields...">
+                </div>
+                <div class="filter-group">
+                    <label>Category Filter:</label>
+                    <select id="categoryFilterSelect">
+                        <option value="ALL">All Categories</option>
                     </select>
                 </div>
-            </div>
+                <div class="filter-group">
+                    <label>Region/Group:</label>
+                    <select id="regionFilterSelect">
+                        <option value="ALL">All Regions</option>
+                    </select>
+                </div>
+                <button class="btn btn-outline" id="resetFiltersBtn">Reset Filters</button>
+            </section>
 
-            <div class="p-5 space-y-4">
-                <div id="universalKpiCards" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3"></div>
+            <!-- TAB 1: EXECUTIVE DASHBOARD -->
+            <div class="tab-content active" id="tab-dashboard">
+                <!-- KPI Banner -->
+                <div class="kpi-grid" id="kpiContainer">
+                    <!-- Dynamic KPI Cards injected by JS -->
+                </div>
 
-                <!-- AI INSIGHTS GENERATOR PANEL -->
-                <div class="bg-gradient-to-r from-purple-900 via-indigo-900 to-slate-900 rounded-xl p-4 text-white shadow-lg border border-purple-500/30">
-                    <div class="flex items-center justify-between mb-2">
-                        <h3 class="text-xs font-extrabold uppercase tracking-wider text-purple-300 flex items-center gap-2">
-                            <span>🤖</span> Local AI Executive Copilot (Anomalies, Pareto & Variance)
-                        </h3>
-                        <span id="aiStatusBadge" class="text-[9px] bg-purple-500/30 text-purple-200 border border-purple-400/40 px-2 py-0.5 rounded-full font-bold">Worker AI Engine</span>
+                <!-- Charts Canvas Grid -->
+                <div class="chart-grid">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Revenue & Performance Trend</h3>
+                            <div class="chart-actions">
+                                <button class="btn-icon" title="Export CSV" onclick="app.exportFilteredData()">💾</button>
+                            </div>
+                        </div>
+                        <div class="chart-body">
+                            <canvas id="lineChartCanvas"></canvas>
+                        </div>
                     </div>
-                    <div id="aiInsightsContent" class="text-xs space-y-2 text-slate-200 leading-relaxed font-normal">
-                        <p class="italic text-slate-400">Analyzing metrics for statistical drivers, Pareto distributions, and outliers...</p>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Regional / Group Share</h3>
+                        </div>
+                        <div class="chart-body">
+                            <canvas id="donutChartCanvas"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Category Performance Comparison</h3>
+                        </div>
+                        <div class="chart-body">
+                            <canvas id="barChartCanvas"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Multi-Metric Radar Breakdown</h3>
+                        </div>
+                        <div class="chart-body">
+                            <canvas id="radarChartCanvas"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
 
-        <!-- FRAME 3: MULTI-PIVOT STUDIOS CONTAINER -->
-        <div id="pivotsContainer" class="space-y-6"></div>
-
-        <!-- ADD NEW PIVOT STUDIO ACTION BAR -->
-        <div id="addPivotSection" class="hidden text-center py-4">
-            <button id="addPivotStudioBtn" class="bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm px-8 py-4 rounded-2xl shadow-xl border-2 border-slate-700 transition flex items-center gap-2 mx-auto hover:scale-105 transform">
-                <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                + Add Custom Analytics Board
-            </button>
-        </div>
-
-    </main>
-
-    <!-- CALCULATED FIELD MODAL DIALOG -->
-    <div id="calcFieldModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden">
-        <div class="bg-white rounded-2xl shadow-2xl border-2 border-indigo-200 w-full max-w-md p-6 space-y-4">
-            <div class="flex justify-between items-center border-b pb-3">
-                <h3 class="text-sm font-bold uppercase text-slate-800 flex items-center gap-2">
-                    <span>🧮</span> Create Calculated Metric (DAX Formula)
-                </h3>
-                <button id="closeCalcModalBtn" class="text-slate-400 hover:text-slate-600 font-bold text-lg">&times;</button>
-            </div>
-            <div class="space-y-3 text-xs">
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1">New Calculated Measure Name</label>
-                    <input type="text" id="calcColumnName" placeholder="e.g., Gross_Profit" class="w-full p-2 border border-slate-300 rounded-lg font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 items-center">
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-1">First Field</label>
-                        <select id="calcFieldSelect1" class="w-full p-2 border border-slate-300 rounded-lg font-semibold bg-white"></select>
-                    </div>
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-1">Operator</label>
-                        <select id="calcOpSelect" class="w-full p-2 border border-slate-300 rounded-lg font-extrabold bg-slate-100 text-indigo-700 text-center">
-                            <option value="+">+</option>
-                            <option value="-">-</option>
-                            <option value="*">&times;</option>
-                            <option value="/">/</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-1">Second Field</label>
-                        <select id="calcFieldSelect2" class="w-full p-2 border border-slate-300 rounded-lg font-semibold bg-white"></select>
+            <!-- TAB 2: DEEP ANALYTICS -->
+            <div class="tab-content" id="tab-analytics">
+                <div class="analytics-grid">
+                    <div class="chart-card full-width">
+                        <div class="chart-header">
+                            <h3>Metric Correlation & Outlier Scatter Matrix</h3>
+                        </div>
+                        <div class="chart-body">
+                            <canvas id="scatterChartCanvas"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="flex justify-end gap-2 pt-2 border-t">
-                <button id="cancelCalcModalBtn" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-xl text-xs transition">Cancel</button>
-                <button id="saveCalcColumnBtn" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs transition shadow-md">Add Column</button>
+
+            <!-- TAB 3: AI INSIGHTS -->
+            <div class="tab-content" id="tab-insights">
+                <div class="insights-container" id="insightsList">
+                    <!-- Dynamic Automated Plain-English Insights injected by JS -->
+                </div>
             </div>
-        </div>
+
+            <!-- TAB 4: DATA EXPLORER / TABLE -->
+            <div class="tab-content" id="tab-datatable">
+                <div class="table-card">
+                    <div class="table-toolbar">
+                        <h3>Raw Dataset Explorer</h3>
+                        <button class="btn btn-secondary" onclick="app.exportFilteredData()">Export Filtered CSV</button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table id="mainDataTable">
+                            <thead id="tableHead"></thead>
+                            <tbody id="tableBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="table-pagination">
+                        <span id="tableInfoText">Showing 0 entries</span>
+                        <div class="pagination-controls">
+                            <button class="btn btn-outline" id="prevPageBtn">Previous</button>
+                            <span id="currentPageSpan">Page 1</span>
+                            <button class="btn btn-outline" id="nextPageBtn">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 5: WHITE LABEL & SETTINGS -->
+            <div class="tab-content" id="tab-settings">
+                <div class="settings-card">
+                    <h3>White Label & Branding Customization</h3>
+                    <div class="form-group">
+                        <label>Platform/Company Name:</label>
+                        <input type="text" id="companyNameInput" value="NexusBI Enterprise">
+                    </div>
+                    <div class="form-group">
+                        <label>Logo Abbreviation (2 Chars):</label>
+                        <input type="text" id="logoTextInput" value="BI" maxlength="2">
+                    </div>
+                    <div class="form-group">
+                        <label>Accent Color Override:</label>
+                        <input type="color" id="accentColorInput" value="#3b82f6">
+                    </div>
+                    <button class="btn btn-primary" onclick="app.applyWhiteLabelSettings()">Apply Branding Settings</button>
+                </div>
+            </div>
+        </main>
     </div>
 
-    <script>
-        Chart.register(ChartDataLabels);
-
-        // INLINE WEB WORKER SCRIPT FOR LARGE-DATA STATISTICAL ANALYSIS
-        const workerCode = `
-            self.onmessage = function(e) {
-                const { data, selectedDatasetKey } = e.data;
-                if (!data || !data.length) {
-                    self.postMessage({ insights: ["• <b>No data available</b> for statistical processing."] });
-                    return;
-                }
-
-                const allCols = Object.keys(data[0] || {});
-                const numCols = [];
-                const catCols = [];
-
-                allCols.forEach(col => {
-                    const sampleVal = data.find(r => r[col] !== null && r[col] !== undefined)?.[col];
-                    if (typeof sampleVal === 'number' || (!isNaN(Number(sampleVal)) && sampleVal !== '' && sampleVal !== true && sampleVal !== false)) {
-                        numCols.push(col);
-                    } else if (typeof sampleVal === 'string' && !col.toLowerCase().includes('id')) {
-                        catCols.push(col);
-                    }
-                });
-
-                let insights = [];
-                insights.push("• <b>Scope & Scale:</b> Evaluated <b>" + data.length.toLocaleString() + " records</b> across " + allCols.length + " attributes (" + numCols.length + " numerical indicators, " + catCols.length + " qualitative dimensions).");
-
-                numCols.forEach(col => {
-                    let total = 0;
-                    let count = 0;
-                    let min = Infinity;
-                    let max = -Infinity;
-                    const values = [];
-
-                    for (let i = 0; i < data.length; i++) {
-                        const val = Number(data[i][col]);
-                        if (!isNaN(val)) {
-                            total += val;
-                            count++;
-                            if (val < min) min = val;
-                            if (val > max) max = val;
-                            values.push(val);
-                        }
-                    }
-
-                    if (count === 0) return;
-
-                    const avg = total / count;
-                    let varianceSum = 0;
-                    for (let i = 0; i < values.length; i++) {
-                        varianceSum += Math.pow(values[i] - avg, 2);
-                    }
-                    const stdDev = Math.sqrt(varianceSum / count);
-                    const cv = avg !== 0 ? (stdDev / Math.abs(avg)) * 100 : 0;
-
-                    insights.push("• <b>Metric Distribution [" + col + "]:</b> Aggregated Sum: <b>" + total.toLocaleString(undefined, {maximumFractionDigits: 2}) + "</b> | Average: <b>" + avg.toLocaleString(undefined, {maximumFractionDigits: 2}) + "</b> | Std Dev: <b>" + stdDev.toLocaleString(undefined, {maximumFractionDigits: 2}) + "</b>.");
-
-                    if (stdDev > 0) {
-                        const upperThreshold = avg + (3 * stdDev);
-                        const outliers = values.filter(v => v > upperThreshold);
-                        if (outliers.length > 0) {
-                            insights.push("  ⚠️ <b>Statistical Anomaly [" + col + "]:</b> Found <b>" + outliers.length + " extreme upper values</b> exceeding 3 Std Dev (Max: <b>" + max.toLocaleString() + "</b> vs Avg: " + avg.toFixed(1) + ").");
-                        }
-                    }
-
-                    if (cv > 150) {
-                        insights.push("  📌 <b>High Variance Alert:</b> Metric <b>" + col + "</b> shows high dispersion (CV: " + cv.toFixed(0) + "%), indicating potential segmentation opportunities.");
-                    }
-                });
-
-                if (catCols.length && numCols.length) {
-                    const primaryCat = catCols[0];
-                    const primaryNum = numCols[0];
-                    const groupSums = {};
-                    let grandTotal = 0;
-
-                    for (let i = 0; i < data.length; i++) {
-                        const cat = String(data[i][primaryCat] || 'Unspecified');
-                        const num = Number(data[i][primaryNum]) || 0;
-                        groupSums[cat] = (groupSums[cat] || 0) + num;
-                        grandTotal += num;
-                    }
-
-                    const sortedGroups = Object.entries(groupSums).sort((a, b) => b[1] - a[1]);
-                    if (sortedGroups.length && grandTotal > 0) {
-                        const topGroup = sortedGroups[0];
-                        const topContributionPct = ((topGroup[1] / grandTotal) * 100).toFixed(1);
-                        insights.push("• <b>Concentration Driver:</b> Segment <b>\"" + topGroup[0] + "\"</b> in <b>" + primaryCat + "</b> accounts for <b>" + topContributionPct + "%</b> of overall " + primaryNum + " (" + topGroup[1].toLocaleString() + ").");
-
-                        const top20Count = Math.max(1, Math.ceil(sortedGroups.length * 0.2));
-                        let top20Sum = 0;
-                        for(let i = 0; i < Math.min(top20Count, sortedGroups.length); i++) {
-                            top20Sum += sortedGroups[i][1];
-                        }
-                        const paretoPct = ((top20Sum / grandTotal) * 100).toFixed(1);
-                        insights.push("  📊 <b>Pareto Check:</b> Top " + Math.min(top20Count, sortedGroups.length) + " categories represent <b>" + paretoPct + "%</b> of total " + primaryNum + ".");
-                    }
-                }
-
-                self.postMessage({ insights: insights });
-            };
-        `;
-
-        const blob = new Blob([workerCode], { type: 'application/javascript' });
-        const aiWorker = new Worker(URL.createObjectURL(blob));
-
-        aiWorker.onmessage = function(e) {
-            const container = document.getElementById('aiInsightsContent');
-            document.getElementById('aiStatusBadge').innerText = "Client-side Thread Active";
-            container.innerHTML = e.data.insights.join('<br>');
-        };
-
-        // GLOBAL APP STATE
-        let datasets = {};
-        let mergedData = [];
-        let filteredData = [];
-        let pivotStudios = [];
-        let activeOverviewKey = "__ALL__";
-        let activeTargetStudioForCalc = null;
-
-        // DEMO DATA (Multi-table model)
-        const SAMPLE_TRANSACTIONS = [
-            { RecordID: "101", EntityID: "E1", ComponentID: "M1", Date: "2026-01-05", Region: "North", Volume: 12, Revenue: 1200, OperationalCost: 800 },
-            { RecordID: "102", EntityID: "E2", ComponentID: "M2", Date: "2026-01-12", Region: "West", Volume: 5, Revenue: 450, OperationalCost: 300 },
-            { RecordID: "103", EntityID: "E1", ComponentID: "M3", Date: "2026-02-01", Region: "North", Volume: 8, Revenue: 1600, OperationalCost: 1000 },
-            { RecordID: "104", EntityID: "E3", ComponentID: "M2", Date: "2026-02-14", Region: "South", Volume: 15, Revenue: 1350, OperationalCost: 900 },
-            { RecordID: "105", EntityID: "E2", ComponentID: "M1", Date: "2026-03-02", Region: "West", Volume: 3, Revenue: 300, OperationalCost: 180 },
-            { RecordID: "106", EntityID: "E4", ComponentID: "M3", Date: "2026-03-10", Region: "East", Volume: 10, Revenue: 2000, OperationalCost: 1300 },
-            { RecordID: "107", EntityID: "E3", ComponentID: "M1", Date: "2026-03-15", Region: "South", Volume: 20, Revenue: 2000, OperationalCost: 1400 }
-        ];
-
-        const SAMPLE_ENTITIES = [
-            { EntityID: "E1", AccountName: "Alpha Operations", Tier: "Enterprise" },
-            { EntityID: "E2", AccountName: "Beta Logistics", Tier: "Mid-Market" },
-            { EntityID: "E3", AccountName: "Gamma Network", Tier: "Enterprise" },
-            { EntityID: "E4", AccountName: "Delta Systems", Tier: "Mid-Market" }
-        ];
-
-        const SAMPLE_COMPONENTS = [
-            { ComponentID: "M1", ModuleName: "Hardware Module A", Classification: "Infrastructure" },
-            { ComponentID: "M2", ModuleName: "Software License B", Classification: "Subscriptions" },
-            { ComponentID: "M3", ModuleName: "Network Controller C", Classification: "Infrastructure" }
-        ];
-
-        const COLOR_PALETTES = {
-            indigo: ['#4f46e5', '#059669', '#d97706', '#dc2626', '#7c3aed', '#0891b2'],
-            emerald: ['#059669', '#10b981', '#34d399', '#6ee7b7', '#a7f3d0', '#047857'],
-            amber: ['#d97706', '#f59e0b', '#fbbf24', '#fcd34d', '#b45309', '#78350f'],
-            neon: ['#ec4899', '#8b5cf6', '#06b6d4', '#10b981', '#f59e0b', '#ef4444']
-        };
-
-        document.getElementById('loadSampleBtn').addEventListener('click', () => {
-            datasets = {
-                "Operations Ledger (Table 1)": JSON.parse(JSON.stringify(SAMPLE_TRANSACTIONS)),
-                "Entity Profiles (Table 2)": JSON.parse(JSON.stringify(SAMPLE_ENTITIES)),
-                "System Components (Table 3)": JSON.parse(JSON.stringify(SAMPLE_COMPONENTS))
-            };
-            handleFilesLoaded();
-        });
-
-        document.getElementById('fileInput').addEventListener('change', (e) => {
-            const files = Array.from(e.target.files);
-            let processed = 0;
-
-            files.forEach((file, index) => {
-                const name = `Table ${index + 1}: ${file.name}`;
-                if (file.name.endsWith('.csv')) {
-                    Papa.parse(file, {
-                        header: true,
-                        skipEmptyLines: true,
-                        dynamicTyping: true,
-                        worker: true,
-                        complete: (results) => {
-                            datasets[name] = results.data;
-                            processed++;
-                            if (processed === files.length) handleFilesLoaded();
-                        }
-                    });
-                } else {
-                    const reader = new FileReader();
-                    reader.onload = (evt) => {
-                        const wb = XLSX.read(evt.target.result, { type: 'binary' });
-                        const sheetName = wb.SheetNames[0];
-                        datasets[name] = XLSX.utils.sheet_to_json(wb.Sheets[sheetName]);
-                        processed++;
-                        if (processed === files.length) handleFilesLoaded();
-                    };
-                    reader.readAsBinaryString(file);
-                }
-            });
-        });
-
-        document.getElementById('clearFilesBtn').addEventListener('click', () => {
-            datasets = {};
-            mergedData = [];
-            filteredData = [];
-            pivotStudios = [];
-            document.getElementById('fileList').innerHTML = '<p class="text-slate-400 italic">No files connected yet.</p>';
-            document.getElementById('relationshipContainer').classList.add('hidden');
-            document.getElementById('globalFilterContainer').classList.add('hidden');
-            document.getElementById('kpiSection').classList.add('hidden');
-            document.getElementById('pivotsContainer').innerHTML = '';
-            document.getElementById('addPivotSection').classList.add('hidden');
-            document.getElementById('clearFilesBtn').classList.add('hidden');
-            document.getElementById('exportGlobalExcel').classList.add('hidden');
-        });
-
-        function handleFilesLoaded() {
-            document.getElementById('clearFilesBtn').classList.remove('hidden');
-            document.getElementById('exportGlobalExcel').classList.remove('hidden');
-            document.getElementById('globalFilterContainer').classList.remove('hidden');
-            updateFileList();
-            updateDatasetOverviewDropdown();
-            autoConnectDatasets();
-        }
-
-        function updateFileList() {
-            const list = document.getElementById('fileList');
-            list.innerHTML = Object.entries(datasets).map(([name, rows]) => 
-                `<div class="flex justify-between items-center bg-white p-2 rounded-lg border border-slate-300 shadow-sm">
-                    <span class="font-bold text-slate-800">${name}</span>
-                    <span class="text-xs bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded font-bold">${rows.length.toLocaleString()} rows</span>
-                </div>`
-            ).join('');
-        }
-
-        function updateDatasetOverviewDropdown() {
-            const dropdown = document.getElementById('datasetOverviewSelect');
-            const keys = Object.keys(datasets);
-
-            let optionsHTML = `<option value="__ALL__">Combined Relational Master (${mergedData.length || 'Auto'} Rows)</option>`;
-            keys.forEach(key => {
-                optionsHTML += `<option value="${key}">File: ${key} (${datasets[key].length} Rows)</option>`;
-            });
-
-            dropdown.innerHTML = optionsHTML;
-            dropdown.value = activeOverviewKey;
-        }
-
-        document.getElementById('datasetOverviewSelect').addEventListener('change', (e) => {
-            activeOverviewKey = e.target.value;
-            applyGlobalFilters();
-        });
-
-        function autoConnectDatasets() {
-            const keys = Object.keys(datasets);
-            if (keys.length === 0) return;
-
-            if (keys.length === 1) {
-                mergedData = JSON.parse(JSON.stringify(datasets[keys[0]]));
-                updateDatasetOverviewDropdown();
-                setupStudio();
-                return;
-            }
-
-            let baseTable = keys[0];
-            mergedData = JSON.parse(JSON.stringify(datasets[baseTable]));
-
-            const joinContainer = document.getElementById('joinsList');
-            joinContainer.innerHTML = '';
-            document.getElementById('relationshipContainer').classList.remove('hidden');
-
-            for (let i = 1; i < keys.length; i++) {
-                const currentTable = keys[i];
-                const colsBase = Object.keys(mergedData[0] || {});
-                const colsCurrent = Object.keys(datasets[currentTable][0] || {});
-
-                const commonKey = colsBase.find(c => colsCurrent.includes(c) && c.toLowerCase().includes('id')) || colsBase.find(c => colsCurrent.includes(c)) || colsBase[0];
-
-                const joinBox = document.createElement('div');
-                joinBox.className = "bg-white p-2.5 rounded-xl border-2 border-indigo-200 flex items-center justify-between text-xs shadow-sm";
-                joinBox.innerHTML = `
-                    <div class="flex items-center gap-2">
-                        <span class="font-bold text-indigo-900 bg-indigo-50 px-2 py-1 rounded border">${baseTable}</span>
-                        <span class="text-indigo-600 font-extrabold">↔</span>
-                        <span class="font-bold text-indigo-900 bg-indigo-50 px-2 py-1 rounded border">${currentTable}</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-slate-600 font-bold">Join Key:</span>
-                        <select data-target="${currentTable}" class="join-key-select border-2 border-indigo-300 rounded-lg px-2 py-1 bg-white font-bold text-indigo-800">
-                            ${colsBase.filter(c => colsCurrent.includes(c)).map(c => `<option value="${c}" ${c === commonKey ? 'selected' : ''}>${c}</option>`).join('')}
-                        </select>
-                    </div>
-                `;
-                joinContainer.appendChild(joinBox);
-
-                performTableJoin(currentTable, commonKey);
-            }
-
-            document.querySelectorAll('.join-key-select').forEach(select => {
-                select.addEventListener('change', () => recalculateAllJoins());
-            });
-
-            updateDatasetOverviewDropdown();
-            setupStudio();
-        }
-
-        function recalculateAllJoins() {
-            const keys = Object.keys(datasets);
-            mergedData = JSON.parse(JSON.stringify(datasets[keys[0]]));
-
-            document.querySelectorAll('.join-key-select').forEach(select => {
-                const targetTable = select.getAttribute('data-target');
-                const key = select.value;
-                performTableJoin(targetTable, key);
-            });
-
-            updateDatasetOverviewDropdown();
-            setupStudio();
-        }
-
-        function performTableJoin(targetTable, key) {
-            const targetData = datasets[targetTable];
-            const lookup = new Map();
-            for (let i = 0; i < targetData.length; i++) {
-                const r = targetData[i];
-                if (r[key] !== undefined) lookup.set(r[key], r);
-            }
-
-            mergedData = mergedData.map(row => ({
-                ...row,
-                ...(lookup.get(row[key]) || {})
-            }));
-        }
-
-        function setupStudio() {
-            if (!mergedData.length) return;
-            applyGlobalFilters();
-
-            document.getElementById('kpiSection').classList.remove('hidden');
-            document.getElementById('addPivotSection').classList.remove('hidden');
-
-            pivotStudios = [];
-            document.getElementById('pivotsContainer').innerHTML = '';
-            createNewPivotStudio();
-        }
-
-        function applyGlobalFilters() {
-            const query = document.getElementById('globalSearchInput').value.toLowerCase().trim();
-            const startDate = document.getElementById('startDateFilter').value;
-            const endDate = document.getElementById('endDateFilter').value;
-
-            let targetDataset = mergedData;
-            if (activeOverviewKey !== "__ALL__" && datasets[activeOverviewKey]) {
-                targetDataset = datasets[activeOverviewKey];
-            }
-
-            const dateCol = Object.keys(targetDataset[0] || {}).find(c => c.toLowerCase().includes('date'));
-
-            filteredData = targetDataset.filter(row => {
-                let matchesQuery = true;
-                if (query) {
-                    matchesQuery = Object.values(row).some(v => String(v).toLowerCase().includes(query));
-                }
-
-                let matchesDate = true;
-                if (dateCol && row[dateCol]) {
-                    const rowDate = new Date(row[dateCol]);
-                    if (startDate && rowDate < new Date(startDate)) matchesDate = false;
-                    if (endDate && rowDate > new Date(endDate)) matchesDate = false;
-                }
-
-                return matchesQuery && matchesDate;
-            });
-
-            renderUniversalKPIs(targetDataset);
-            triggerWorkerAIAnalysis(filteredData);
-            pivotStudios.forEach(s => s.render());
-        }
-
-        function triggerWorkerAIAnalysis(dataToAnalyze) {
-            document.getElementById('aiStatusBadge').innerText = "Analyzing in Thread...";
-            aiWorker.postMessage({
-                data: dataToAnalyze,
-                selectedDatasetKey: activeOverviewKey
-            });
-        }
-
-        document.getElementById('globalSearchInput').addEventListener('input', applyGlobalFilters);
-        document.getElementById('startDateFilter').addEventListener('change', applyGlobalFilters);
-        document.getElementById('endDateFilter').addEventListener('change', applyGlobalFilters);
-
-        document.getElementById('exportGlobalExcel').addEventListener('click', () => {
-            if (!filteredData.length) return;
-            const ws = XLSX.utils.json_to_sheet(filteredData);
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Master_Export");
-            XLSX.writeFile(wb, "PowerBI_Studio_Export.xlsx");
-        });
-
-        function renderUniversalKPIs(sourceDataset) {
-            const container = document.getElementById('universalKpiCards');
-            container.innerHTML = '';
-
-            const totalRows = filteredData.length;
-            const allCols = Object.keys(sourceDataset[0] || {});
-            const totalCols = allCols.length;
-
-            let numericColCount = 0;
-            allCols.forEach(col => {
-                const val = sourceDataset[0][col];
-                if (typeof val === 'number' || (!isNaN(Number(val)) && val !== '')) numericColCount++;
-            });
-
-            const kpis = [
-                { label: "Active Records", val: totalRows.toLocaleString(), color: "bg-slate-900 text-white border-slate-700" },
-                { label: "Data Attributes", val: totalCols, color: "bg-indigo-50 text-indigo-900 border-indigo-300" },
-                { label: "Model Mode", val: activeOverviewKey === "__ALL__" ? "Relational Join" : "Single Table", color: "bg-emerald-50 text-emerald-900 border-emerald-300" },
-                { label: "Numeric Measures", val: numericColCount, color: "bg-amber-50 text-amber-900 border-amber-300" },
-                { label: "Dimensions", val: totalCols - numericColCount, color: "bg-teal-50 text-teal-900 border-teal-300" },
-                { label: "AI Worker Engine", val: "Active Thread", color: "bg-sky-50 text-sky-900 border-sky-300" }
-            ];
-
-            container.innerHTML = kpis.map(k => `
-                <div class="border-2 ${k.color} rounded-xl p-3 text-center shadow-sm">
-                    <p class="text-[10px] font-bold uppercase tracking-wider opacity-80">${k.label}</p>
-                    <p class="text-xl font-black mt-1">${k.val}</p>
-                </div>
-            `).join('');
-        }
-
-        function openCalculatedFieldModal(studio) {
-            activeTargetStudioForCalc = studio;
-            const numCols = studio.allFields.filter(col => {
-                const val = mergedData[0]?.[col];
-                return typeof val === 'number' || (!isNaN(Number(val)) && val !== '');
-            });
-
-            const f1Select = document.getElementById('calcFieldSelect1');
-            const f2Select = document.getElementById('calcFieldSelect2');
-            
-            f1Select.innerHTML = numCols.map(c => `<option value="${c}">${c}</option>`).join('');
-            f2Select.innerHTML = numCols.map(c => `<option value="${c}">${c}</option>`).join('');
-            document.getElementById('calcColumnName').value = `Measure_${studio.allFields.length + 1}`;
-
-            document.getElementById('calcFieldModal').classList.remove('hidden');
-        }
-
-        function closeCalculatedFieldModal() {
-            document.getElementById('calcFieldModal').classList.add('hidden');
-            activeTargetStudioForCalc = null;
-        }
-
-        document.getElementById('closeCalcModalBtn').addEventListener('click', closeCalculatedFieldModal);
-        document.getElementById('cancelCalcModalBtn').addEventListener('click', closeCalculatedFieldModal);
-
-        document.getElementById('saveCalcColumnBtn').addEventListener('click', () => {
-            if (!activeTargetStudioForCalc) return;
-            const colName = document.getElementById('calcColumnName').value.trim().replace(/\s+/g, '_');
-            const f1 = document.getElementById('calcFieldSelect1').value;
-            const f2 = document.getElementById('calcFieldSelect2').value;
-            const op = document.getElementById('calcOpSelect').value;
-
-            if (!colName) {
-                alert('Please enter a column name.');
-                return;
-            }
-
-            mergedData.forEach(row => {
-                const v1 = parseFloat(row[f1]) || 0;
-                const v2 = parseFloat(row[f2]) || 0;
-                let res = 0;
-                if (op === '+') res = v1 + v2;
-                if (op === '-') res = v1 - v2;
-                if (op === '*') res = v1 * v2;
-                if (op === '/') res = v2 !== 0 ? v1 / v2 : 0;
-                row[colName] = Number(res.toFixed(2));
-            });
-
-            Object.keys(datasets).forEach(dKey => {
-                datasets[dKey].forEach(row => {
-                    if (row[f1] !== undefined || row[f2] !== undefined) {
-                        const v1 = parseFloat(row[f1]) || 0;
-                        const v2 = parseFloat(row[f2]) || 0;
-                        let res = 0;
-                        if (op === '+') res = v1 + v2;
-                        if (op === '-') res = v1 - v2;
-                        if (op === '*') res = v1 * v2;
-                        if (op === '/') res = v2 !== 0 ? v1 / v2 : 0;
-                        row[colName] = Number(res.toFixed(2));
-                    }
-                });
-            });
-
-            pivotStudios.forEach(studio => {
-                if (!studio.allFields.includes(colName)) studio.allFields.push(colName);
-                if (!studio.calculatedFields.includes(colName)) studio.calculatedFields.push(colName);
-                studio.updateFieldsListUI();
-            });
-
-            closeCalculatedFieldModal();
-            applyGlobalFilters();
-        });
-
-        function createNewPivotStudio() {
-            const studio = new CustomPivotStudio(pivotStudios.length + 1);
-            pivotStudios.push(studio);
-            studio.render();
-        }
-
-        document.getElementById('addPivotStudioBtn').addEventListener('click', createNewPivotStudio);
-
-        class CustomPivotStudio {
-            constructor(id) {
-                this.id = id;
-                this.pivotChartInstance = null;
-                this.allFields = Object.keys(mergedData[0] || {});
-                this.calculatedFields = [];
-
-                const sample = mergedData[0] || {};
-                const textCol = this.allFields.find(c => typeof sample[c] === 'string' && !c.toLowerCase().includes('id')) || this.allFields[0];
-                const numCol = this.allFields.find(c => typeof sample[c] === 'number') || this.allFields[1] || this.allFields[0];
-
-                this.pivotConfig = {
-                    rows: [textCol],
-                    cols: [],
-                    filters: [],
-                    values: [{ field: numCol, agg: 'SUM' }]
-                };
-
-                this.excelSlicers = {};
-                this.selectedPalette = 'indigo';
-                this.chartType = 'bar';
-
-                this.createDOM();
-                this.initDragAndDrop();
-                this.initControls();
-            }
-
-            createDOM() {
-                const container = document.getElementById('pivotsContainer');
-                const card = document.createElement('section');
-                card.id = `pivot-studio-${this.id}`;
-                card.className = "bg-white rounded-2xl shadow-md border-2 border-indigo-200 overflow-hidden space-y-0";
-
-                card.innerHTML = `
-                    <div class="bg-indigo-900 text-white px-5 py-3 flex justify-between items-center border-b border-indigo-800">
-                        <div class="flex items-center gap-2">
-                            <span class="w-6 h-6 rounded-full bg-indigo-500 text-white flex items-center justify-center text-xs font-bold">${this.id}</span>
-                            <h2 class="text-sm font-bold uppercase tracking-wider">Analytics Board #${this.id}</h2>
-                            <span id="badge-${this.id}" class="text-xs bg-emerald-500 text-white font-extrabold px-2.5 py-0.5 rounded-full shadow">0 Rows</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <button id="add-calc-field-${this.id}" class="text-xs bg-purple-600 hover:bg-purple-500 text-white font-bold px-2.5 py-1.5 rounded-lg shadow transition flex items-center gap-1">
-                                🧮 + Measure
-                            </button>
-                            <button id="export-excel-${this.id}" class="text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-2.5 py-1.5 rounded-lg shadow transition">
-                                📊 Export Pivot
-                            </button>
-                            <button id="refresh-btn-${this.id}" class="text-xs bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-3 py-1.5 rounded-lg border border-indigo-400 transition flex items-center gap-1 shadow">
-                                🔄 Refresh
-                            </button>
-                            <button id="remove-studio-btn-${this.id}" class="text-xs bg-rose-600 hover:bg-rose-500 text-white font-bold px-3 py-1.5 rounded-lg transition shadow">
-                                Remove
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="p-5 space-y-6">
-
-                        <!-- PIVOT BUILDER & SLICERS -->
-                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
-                            
-                            <!-- LEFT: BUILDER & DROP BUCKETS -->
-                            <div class="lg:col-span-7 bg-slate-50 border-2 border-slate-300 rounded-2xl p-4 shadow-sm space-y-4 flex flex-col justify-between">
-                                <div class="space-y-4">
-                                    <div class="flex justify-between items-center border-b pb-2">
-                                        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-2">
-                                            <span>🖱️</span> Pivot Matrix Configurator
-                                        </h3>
-                                        <span class="text-[10px] font-bold text-slate-500">Drag fields or click + to add</span>
-                                    </div>
-
-                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                        
-                                        <!-- FIELD LIST -->
-                                        <div class="bg-white border-2 border-slate-300 rounded-xl p-3 flex flex-col">
-                                            <div class="flex justify-between items-center mb-2 pb-1 border-b">
-                                                <h4 class="text-[11px] font-black uppercase text-slate-700">Fields</h4>
-                                            </div>
-                                            <div id="fields-list-${this.id}" class="space-y-3 overflow-y-auto max-h-64 custom-scrollbar flex-1">
-                                                ${this.renderGroupedFieldsHTML()}
-                                            </div>
-                                        </div>
-
-                                        <!-- BUCKETS -->
-                                        <div class="md:col-span-2 grid grid-cols-2 gap-2">
-                                            
-                                            <!-- FILTERS BUCKET -->
-                                            <div class="bg-amber-50/50 border-2 border-amber-300 rounded-xl p-2">
-                                                <h4 class="text-[10px] font-black uppercase text-amber-900 mb-1 flex justify-between">
-                                                    <span>🔍 Filters</span>
-                                                </h4>
-                                                <div id="bucket-filters-${this.id}" class="drop-zone bg-white border-2 border-dashed border-amber-300 rounded-lg p-1.5 flex flex-wrap gap-1 align-content-start" data-bucket="filters"></div>
-                                            </div>
-
-                                            <!-- COLUMNS BUCKET -->
-                                            <div class="bg-sky-50/50 border-2 border-sky-300 rounded-xl p-2">
-                                                <h4 class="text-[10px] font-black uppercase text-sky-900 mb-1 flex justify-between">
-                                                    <span>📊 Columns</span>
-                                                </h4>
-                                                <div id="bucket-cols-${this.id}" class="drop-zone bg-white border-2 border-dashed border-sky-300 rounded-lg p-1.5 flex flex-wrap gap-1 align-content-start" data-bucket="cols"></div>
-                                            </div>
-
-                                            <!-- ROWS BUCKET -->
-                                            <div class="bg-emerald-50/50 border-2 border-emerald-300 rounded-xl p-2">
-                                                <h4 class="text-[10px] font-black uppercase text-emerald-900 mb-1 flex justify-between">
-                                                    <span>📋 Rows</span>
-                                                </h4>
-                                                <div id="bucket-rows-${this.id}" class="drop-zone bg-white border-2 border-dashed border-emerald-300 rounded-lg p-1.5 flex flex-wrap gap-1 align-content-start" data-bucket="rows"></div>
-                                            </div>
-
-                                            <!-- VALUES BUCKET -->
-                                            <div class="bg-indigo-50/50 border-2 border-indigo-300 rounded-xl p-2">
-                                                <h4 class="text-[10px] font-black uppercase text-indigo-900 mb-1 flex justify-between">
-                                                    <span>🔢 Values</span>
-                                                </h4>
-                                                <div id="bucket-values-${this.id}" class="drop-zone bg-white border-2 border-dashed border-indigo-300 rounded-lg p-1.5 flex flex-wrap gap-1 align-content-start" data-bucket="values"></div>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- RIGHT: POWER BI SLICERS -->
-                            <div class="lg:col-span-5 bg-slate-50 border-2 border-slate-300 rounded-2xl p-4 shadow-sm flex flex-col justify-between">
-                                <div>
-                                    <div class="flex justify-between items-center border-b pb-2 mb-3">
-                                        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-2">
-                                            <span>🎛️</span> Dynamic Power BI Slicers
-                                        </h3>
-                                        <button id="reset-slicers-${this.id}" class="text-[10px] text-indigo-600 font-bold hover:underline">Clear Slicers</button>
-                                    </div>
-                                    <div id="slicers-container-${this.id}" class="space-y-3 overflow-y-auto max-h-72 custom-scrollbar p-1">
-                                        <p class="text-xs text-slate-400 italic text-center py-4">Add fields to the "Filters" bucket to generate interactive Power BI slicers.</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <!-- VISUALIZATION CONTROLS & CHART -->
-                        <div class="bg-slate-50 border-2 border-slate-300 rounded-2xl p-4 space-y-4">
-                            <div class="flex flex-col sm:flex-row justify-between items-center gap-3 border-b pb-3">
-                                <div class="flex items-center gap-2">
-                                    <label class="text-xs font-bold uppercase text-slate-600">Visual Type:</label>
-                                    <select id="chart-type-${this.id}" class="text-xs border-2 border-indigo-300 rounded-lg p-1.5 bg-white font-bold text-slate-800">
-                                        <option value="bar">Bar / Column Chart</option>
-                                        <option value="line">Line Trend Chart</option>
-                                        <option value="pie">Pie / Donut Visual</option>
-                                        <option value="radar">Radar Chart</option>
-                                    </select>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <label class="text-xs font-bold uppercase text-slate-600">Palette:</label>
-                                    <select id="palette-select-${this.id}" class="text-xs border-2 border-indigo-300 rounded-lg p-1.5 bg-white font-bold text-slate-800">
-                                        <option value="indigo">Enterprise Indigo</option>
-                                        <option value="emerald">Teal Emerald</option>
-                                        <option value="amber">Warm Amber</option>
-                                        <option value="neon">Vibrant Neon</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="h-80 relative w-full">
-                                <canvas id="chart-canvas-${this.id}"></canvas>
-                            </div>
-                        </div>
-
-                        <!-- DATA MATRIX / PIVOT TABLE -->
-                        <div class="bg-white border-2 border-slate-300 rounded-2xl overflow-hidden">
-                            <div class="bg-slate-800 text-white px-4 py-2 flex justify-between items-center">
-                                <h3 class="text-xs font-bold uppercase tracking-wider">Aggregated Matrix Table</h3>
-                                <span id="matrix-count-${this.id}" class="text-[10px] bg-slate-700 px-2 py-0.5 rounded text-slate-300">0 records</span>
-                            </div>
-                            <div id="pivot-table-container-${this.id}" class="overflow-x-auto max-h-64 custom-scrollbar"></div>
-                        </div>
-
-                    </div>
-                `;
-
-                container.appendChild(card);
-            }
-
-            renderGroupedFieldsHTML() {
-                let html = '';
-                this.allFields.forEach(field => {
-                    const isCalc = this.calculatedFields.includes(field);
-                    html += `
-                        <div draggable="true" data-field="${field}" class="field-item flex items-center justify-between p-1.5 bg-slate-100 hover:bg-indigo-50 border border-slate-300 rounded-lg text-xs font-bold text-slate-700 transition">
-                            <span class="truncate">${isCalc ? '🧮 ' : ''}${field}</span>
-                            <div class="flex items-center gap-1">
-                                <button data-add="rows" data-field="${field}" class="text-[9px] bg-emerald-600 text-white px-1.5 py-0.5 rounded hover:bg-emerald-500">+R</button>
-                                <button data-add="values" data-field="${field}" class="text-[9px] bg-indigo-600 text-white px-1.5 py-0.5 rounded hover:bg-indigo-500">+V</button>
-                            </div>
-                        </div>
-                    `;
-                });
-                return html;
-            }
-
-            updateFieldsListUI() {
-                const list = document.getElementById(`fields-list-${this.id}`);
-                if (list) list.innerHTML = this.renderGroupedFieldsHTML();
-                this.initDragAndDrop();
-            }
-
-            initDragAndDrop() {
-                const items = document.querySelectorAll(`#pivot-studio-${this.id} .field-item`);
-                items.forEach(item => {
-                    item.addEventListener('dragstart', (e) => {
-                        e.dataTransfer.setData('text/plain', e.target.getAttribute('data-field'));
-                    });
-                });
-
-                const zones = document.querySelectorAll(`#pivot-studio-${this.id} .drop-zone`);
-                zones.forEach(zone => {
-                    zone.addEventListener('dragover', (e) => {
-                        e.preventDefault();
-                        zone.classList.add('drag-over');
-                    });
-                    zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
-                    zone.addEventListener('drop', (e) => {
-                        e.preventDefault();
-                        zone.classList.remove('drag-over');
-                        const field = e.dataTransfer.getData('text/plain');
-                        const bucket = zone.getAttribute('data-bucket');
-                        if (field && bucket) this.addFieldToBucket(field, bucket);
-                    });
-                });
-
-                document.querySelectorAll(`#fields-list-${this.id} button`).forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const targetBucket = e.target.getAttribute('data-add');
-                        const targetField = e.target.getAttribute('data-field');
-                        this.addFieldToBucket(targetField, targetBucket);
-                    });
-                });
-            }
-
-            addFieldToBucket(field, bucket) {
-                if (bucket === 'rows' && !this.pivotConfig.rows.includes(field)) this.pivotConfig.rows.push(field);
-                if (bucket === 'cols' && !this.pivotConfig.cols.includes(field)) this.pivotConfig.cols.push(field);
-                if (bucket === 'filters' && !this.pivotConfig.filters.includes(field)) this.pivotConfig.filters.push(field);
-                if (bucket === 'values') {
-                    if (!this.pivotConfig.values.some(v => v.field === field)) {
-                        this.pivotConfig.values.push({ field: field, agg: 'SUM' });
-                    }
-                }
-                this.render();
-            }
-
-            removeFieldFromBucket(field, bucket) {
-                if (bucket === 'rows') this.pivotConfig.rows = this.pivotConfig.rows.filter(f => f !== field);
-                if (bucket === 'cols') this.pivotConfig.cols = this.pivotConfig.cols.filter(f => f !== field);
-                if (bucket === 'filters') {
-                    this.pivotConfig.filters = this.pivotConfig.filters.filter(f => f !== field);
-                    delete this.excelSlicers[field];
-                }
-                if (bucket === 'values') this.pivotConfig.values = this.pivotConfig.values.filter(v => v.field !== field);
-                this.render();
-            }
-
-            initControls() {
-                document.getElementById(`remove-studio-btn-${this.id}`).addEventListener('click', () => {
-                    document.getElementById(`pivot-studio-${this.id}`).remove();
-                    pivotStudios = pivotStudios.filter(s => s.id !== this.id);
-                });
-
-                document.getElementById(`refresh-btn-${this.id}`).addEventListener('click', () => this.render());
-                document.getElementById(`add-calc-field-${this.id}`).addEventListener('click', () => openCalculatedFieldModal(this));
-                document.getElementById(`export-excel-${this.id}`).addEventListener('click', () => this.exportPivotExcel());
-                document.getElementById(`reset-slicers-${this.id}`).addEventListener('click', () => {
-                    this.excelSlicers = {};
-                    this.render();
-                });
-
-                document.getElementById(`chart-type-${this.id}`).addEventListener('change', (e) => {
-                    this.chartType = e.target.value;
-                    this.renderChart();
-                });
-
-                document.getElementById(`palette-select-${this.id}`).addEventListener('change', (e) => {
-                    this.selectedPalette = e.target.value;
-                    this.renderChart();
-                });
-            }
-
-            renderBucketsUI() {
-                ['rows', 'cols', 'filters'].forEach(b => {
-                    const el = document.getElementById(`bucket-${b}-${this.id}`);
-                    el.innerHTML = this.pivotConfig[b].map(f => `
-                        <span class="inline-flex items-center gap-1 text-[10px] bg-slate-800 text-white font-bold px-2 py-0.5 rounded-full shadow">
-                            ${f}
-                            <button data-remove="${b}" data-field="${f}" class="text-rose-300 font-extrabold hover:text-white">&times;</button>
-                        </span>
-                    `).join('');
-                });
-
-                const vEl = document.getElementById(`bucket-values-${this.id}`);
-                vEl.innerHTML = this.pivotConfig.values.map(v => `
-                    <span class="inline-flex items-center gap-1 text-[10px] bg-indigo-700 text-white font-bold px-2 py-0.5 rounded-full shadow">
-                        ${v.agg}(${v.field})
-                        <button data-remove="values" data-field="${v.field}" class="text-indigo-200 font-extrabold hover:text-white">&times;</button>
-                    </span>
-                `).join('');
-
-                document.querySelectorAll(`#pivot-studio-${this.id} [data-remove]`).forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const b = e.target.getAttribute('data-remove');
-                        const f = e.target.getAttribute('data-field');
-                        this.removeFieldFromBucket(f, b);
-                    });
-                });
-            }
-
-            renderSlicers() {
-                const container = document.getElementById(`slicers-container-${this.id}`);
-                if (!this.pivotConfig.filters.length) {
-                    container.innerHTML = '<p class="text-xs text-slate-400 italic text-center py-4">Add fields to the "Filters" bucket to generate Power BI slicers.</p>';
-                    return;
-                }
-
-                container.innerHTML = '';
-                let targetData = activeOverviewKey === "__ALL__" ? mergedData : (datasets[activeOverviewKey] || mergedData);
-
-                this.pivotConfig.filters.forEach(filterField => {
-                    const uniqueVals = Array.from(new Set(targetData.map(r => r[filterField]))).filter(v => v !== undefined && v !== null);
-
-                    const card = document.createElement('div');
-                    card.className = "bg-white border-2 border-indigo-100 rounded-xl p-2.5 shadow-sm space-y-1.5";
-                    
-                    const activeSet = this.excelSlicers[filterField] || new Set();
-
-                    card.innerHTML = `
-                        <div class="flex justify-between items-center border-b pb-1">
-                            <span class="text-[11px] font-black uppercase text-indigo-950">${filterField}</span>
-                            <span class="text-[9px] font-bold text-slate-500">${activeSet.size ? activeSet.size + ' selected' : 'All'}</span>
-                        </div>
-                        <div class="flex flex-wrap gap-1 max-h-24 overflow-y-auto custom-scrollbar pt-1">
-                            ${uniqueVals.map(v => `
-                                <button data-slicer="${filterField}" data-val="${v}" class="slicer-btn text-[10px] border border-slate-300 font-bold px-2 py-0.5 rounded-lg text-slate-700 hover:bg-indigo-50 transition ${activeSet.has(String(v)) ? 'active' : ''}">
-                                    ${v}
-                                </button>
-                            `).join('')}
-                        </div>
-                    `;
-                    container.appendChild(card);
-                });
-
-                document.querySelectorAll(`#slicers-container-${this.id} [data-slicer]`).forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const f = e.target.getAttribute('data-slicer');
-                        const val = String(e.target.getAttribute('data-val'));
-
-                        if (!this.excelSlicers[f]) this.excelSlicers[f] = new Set();
-                        if (this.excelSlicers[f].has(val)) {
-                            this.excelSlicers[f].delete(val);
-                            if (this.excelSlicers[f].size === 0) delete this.excelSlicers[f];
-                        } else {
-                            this.excelSlicers[f].add(val);
-                        }
-                        this.render();
-                    });
-                });
-            }
-
-            computePivotData() {
-                let baseData = activeOverviewKey === "__ALL__" ? mergedData : (datasets[activeOverviewKey] || mergedData);
-
-                let data = baseData.filter(row => {
-                    for (let f in this.excelSlicers) {
-                        if (this.excelSlicers[f].size > 0 && !this.excelSlicers[f].has(String(row[f]))) {
-                            return false;
-                        }
-                    }
-                    return true;
-                });
-
-                document.getElementById(`badge-${this.id}`).innerText = `${data.length.toLocaleString()} Records`;
-
-                const rowField = this.pivotConfig.rows[0];
-                const colField = this.pivotConfig.cols[0];
-                const valObj = this.pivotConfig.values[0];
-
-                if (!rowField || !valObj) return { labels: [], datasets: [], matrix: [] };
-
-                const rowKeys = Array.from(new Set(data.map(r => String(r[rowField] || 'Unspecified'))));
-                const colKeys = colField ? Array.from(new Set(data.map(r => String(r[colField] || 'Unspecified')))) : ['Value'];
-
-                const matrix = {};
-                rowKeys.forEach(rk => {
-                    matrix[rk] = {};
-                    colKeys.forEach(ck => matrix[rk][ck] = []);
-                });
-
-                data.forEach(r => {
-                    const rk = String(r[rowField] || 'Unspecified');
-                    const ck = colField ? String(r[colField] || 'Unspecified') : 'Value';
-                    const num = Number(r[valObj.field]) || 0;
-                    if (matrix[rk] && matrix[rk][ck]) matrix[rk][ck].push(num);
-                });
-
-                const aggregatedMatrix = {};
-                rowKeys.forEach(rk => {
-                    aggregatedMatrix[rk] = {};
-                    colKeys.forEach(ck => {
-                        const vals = matrix[rk][ck] || [];
-                        let aggVal = 0;
-                        if (vals.length) {
-                            if (valObj.agg === 'SUM') aggVal = vals.reduce((a, b) => a + b, 0);
-                            if (valObj.agg === 'AVG') aggVal = vals.reduce((a, b) => a + b, 0) / vals.length;
-                            if (valObj.agg === 'COUNT') aggVal = vals.length;
-                        }
-                        aggregatedMatrix[rk][ck] = Number(aggVal.toFixed(2));
-                    });
-                });
-
-                const palette = COLOR_PALETTES[this.selectedPalette] || COLOR_PALETTES.indigo;
-
-                const chartDatasets = colKeys.map((ck, idx) => ({
-                    label: ck,
-                    data: rowKeys.map(rk => aggregatedMatrix[rk][ck]),
-                    backgroundColor: palette[idx % palette.length],
-                    borderColor: palette[idx % palette.length],
-                    borderWidth: 1
-                }));
-
-                return {
-                    labels: rowKeys,
-                    datasets: chartDatasets,
-                    matrix: aggregatedMatrix,
-                    rowKeys,
-                    colKeys
-                };
-            }
-
-            renderChart() {
-                const pivotResult = this.computePivotData();
-                const ctx = document.getElementById(`chart-canvas-${this.id}`).getContext('2d');
-
-                if (this.pivotChartInstance) this.pivotChartInstance.destroy();
-
-                this.pivotChartInstance = new Chart(ctx, {
-                    type: this.chartType,
-                    data: {
-                        labels: pivotResult.labels,
-                        datasets: pivotResult.datasets
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: { position: 'top', labels: { font: { weight: 'bold', size: 10 } } },
-                            datalabels: {
-                                color: '#334155',
-                                font: { weight: 'bold', size: 9 },
-                                formatter: (val) => val > 0 ? val.toLocaleString() : ''
-                            }
-                        },
-                        scales: this.chartType === 'pie' || this.chartType === 'radar' ? {} : {
-                            x: { ticks: { font: { size: 10, weight: 'bold' } } },
-                            y: { ticks: { font: { size: 10 } } }
-                        }
-                    }
-                });
-
-                this.renderPivotTable(pivotResult);
-            }
-
-            renderPivotTable(pivotResult) {
-                const container = document.getElementById(`pivot-table-container-${this.id}`);
-                if (!pivotResult.rowKeys || !pivotResult.rowKeys.length) {
-                    container.innerHTML = '<p class="p-4 text-xs text-slate-400 italic">Configure Rows and Values to generate matrix.</p>';
-                    return;
-                }
-
-                let html = `
-                    <table class="w-full text-xs text-left border-collapse">
-                        <thead class="bg-slate-100 border-b border-slate-300 text-slate-700 font-extrabold uppercase">
-                            <tr>
-                                <th class="p-2.5 border-r border-slate-200">${this.pivotConfig.rows[0] || 'Row'}</th>
-                                ${pivotResult.colKeys.map(ck => `<th class="p-2.5 border-r border-slate-200 text-right">${ck}</th>`).join('')}
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-200">
-                `;
-
-                pivotResult.rowKeys.forEach(rk => {
-                    html += `<tr class="hover:bg-indigo-50/50 transition font-medium">
-                        <td class="p-2.5 font-bold text-slate-800 border-r border-slate-200 bg-slate-50">${rk}</td>
-                        ${pivotResult.colKeys.map(ck => `
-                            <td class="p-2.5 text-right border-r border-slate-200 font-bold text-indigo-900">${pivotResult.matrix[rk][ck].toLocaleString()}</td>
-                        `).join('')}
-                    </tr>`;
-                });
-
-                html += '</tbody></table>';
-                container.innerHTML = html;
-                document.getElementById(`matrix-count-${this.id}`).innerText = `${pivotResult.rowKeys.length} categories`;
-            }
-
-            exportPivotExcel() {
-                const res = this.computePivotData();
-                if (!res.rowKeys.length) return;
-
-                const exportRows = res.rowKeys.map(rk => {
-                    const rowObj = { [this.pivotConfig.rows[0]]: rk };
-                    res.colKeys.forEach(ck => rowObj[ck] = res.matrix[rk][ck]);
-                    return rowObj;
-                });
-
-                const ws = XLSX.utils.json_to_sheet(exportRows);
-                const wb = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(wb, ws, `Pivot_Studio_${this.id}`);
-                XLSX.writeFile(wb, `Pivot_Report_Studio_${this.id}.xlsx`);
-            }
-
-            render() {
-                this.renderBucketsUI();
-                this.renderSlicers();
-                this.renderChart();
-            }
-        }
-    </script>
+    <!-- Application Script Files -->
+    <script src="js/parser.js"></script>
+    <script src="js/analytics.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
